@@ -141,6 +141,5 @@ app.put('/items/:itemId', jsonParser, function (req, res) {
 //  export objects to expose for test
 exports.app = app
 exports.storage = storage
-
-app.listen(process.env.PORT, process.env.IP)
-
+console.log('App running at http://localhost:8080; Ctrl+C to terminate...')
+app.listen(process.env.PORT || 8080)
