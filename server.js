@@ -58,7 +58,7 @@ Storage.prototype.put = function (itemId, name) {
     }
     //  look for item to be deleted
     for (var i = 0; i < this.items.length; i++) {
-      if (this.items[i]['id'].toString() === itemId) {
+      if (this.items[i]['id'] === itemId) {
         this.items[i].name = name
         this.items[i].id = itemId
         return this.items
@@ -126,7 +126,7 @@ app.put('/items/:itemId', jsonParser, function (req, res) {
     return res.sendStatus(400)
   }
   var name = req.body.name
-  var itemId = req.params.itemId
+  var itemId = req.body.id
   var items = storage.put(itemId, name)
   if (items) {
     res.status(201).json(items)

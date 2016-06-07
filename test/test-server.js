@@ -45,7 +45,7 @@ describe('Shopping List', function () {
   it('should add an item on POST', function (done) {
     chai.request(app)
       .post('/items')
-      .send({'name': 'Kale'})
+      .send({name: 'Kale'})
       .end(function (err, res) {
         should.equal(err, null)
         res.should.have.status(200)
@@ -68,8 +68,33 @@ describe('Shopping List', function () {
         done()
       })
   })
-
-  it('should edit an item on PUT')
-  it('should delete an item on DELETE')
-  it('should add an item when attempting to edit a non-existing item on PUT')
+  //  PUT method test
+  it('should edit an item on PUT', function (done) {
+    chai.request(app)
+      .put('/items/0')
+      .send({ name: 'Apple', id: 0 })
+      .end(function (err, res) {
+        should.equal(err, null)
+        res.should.have.status(201)
+        res.should.be.json
+        res.body.should.be.a('array')
+        res.body.should.have.length(4)
+        storage.items.should.be.a('array')
+        storage.items[0].name.should.equal('Apple')
+        storage.items[3].name.should.equal('Kale')
+        done()
+      })
+  })
+  //  DELETE method test
+  it('should delete an item on DELETE', function (done) {
+    chai.request(app)
+      .delete('/items/3')
+      .end(function (err, res) {
+        should.equal(err, null)
+        res.should.have.status(200)
+        res.should.be.json
+        storage.items.should.have.length(3)
+        done()
+      })
+  })
 })
