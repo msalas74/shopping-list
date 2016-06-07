@@ -13,7 +13,6 @@ Storage.prototype.add = function (name) {
     var item = {name: name, id: this.id}
     this.items.push(item)
     this.id += 1
-    item = null
     return item
   } else {
     throw {
@@ -130,7 +129,7 @@ app.put('/items/:itemId', jsonParser, function (req, res) {
   var itemId = req.params.itemId
   var items = storage.put(itemId, name)
   if (items) {
-    res.status(200).json(items)
+    res.status(201).json(items)
   } else {
     res.status(500).json({error: 'JSONError: Invalid Id or object does not exist.'})
   }
@@ -142,3 +141,7 @@ app.put('/items/:itemId', jsonParser, function (req, res) {
 console.log('App started.  Server listening at port 8080')
 console.log('Ctrl+C to exit...')
 app.listen(process.env.PORT || 8080)
+
+//  export objects to expose for test
+exports.app = app
+exports.storage = storage
