@@ -138,10 +138,9 @@ app.put('/items/:itemId', jsonParser, function (req, res) {
   items = null
 })
 
-console.log('App started.  Server listening at port 8080')
-console.log('Ctrl+C to exit...')
-app.listen(process.env.PORT || 8080)
-
 //  export objects to expose for test
 exports.app = app
 exports.storage = storage
+
+app.listen(process.env.PORT, process.env.IP)
+
