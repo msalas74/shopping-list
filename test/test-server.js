@@ -85,6 +85,23 @@ describe('Shopping List', function () {
         done()
       })
   })
+    //  PUT method test for adding item when attempting to modify on an non existing ID
+  it('should add an item on PUT when attempting to modify on a non existing ID', function (done) {
+    chai.request(app)
+      .put('/items/0')
+      .send({ name: 'Banana', id: 10 })
+      .end(function (err, res) {
+        should.equal(err, null)
+        res.should.have.status(201)
+        res.should.be.json
+        res.body.should.be.a('array')
+        res.body.should.have.length(5)
+        storage.items.should.be.a('array')
+        storage.items[4].name.should.equal('Banana')
+        storage.items[4].id.should.equal(10)
+        done()
+      })
+  })
   //  DELETE method test
   it('should delete an item on DELETE', function (done) {
     chai.request(app)
@@ -93,7 +110,7 @@ describe('Shopping List', function () {
         should.equal(err, null)
         res.should.have.status(200)
         res.should.be.json
-        storage.items.should.have.length(3)
+        storage.items.should.have.length(4)
         done()
       })
   })
